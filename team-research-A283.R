@@ -1,4 +1,3 @@
-# fresh file 
 library(readxl)
 gfg_data = read_excel("length_of_hospital_stay.xlsx")
 gfg_data
