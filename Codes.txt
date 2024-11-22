@@ -1,0 +1,42 @@
+BOX plot with outliers
+
+ggplot(length_of_hospital_stay, aes(x = SUBJECT, y = Value, fill = SUBJECT)) +
+    geom_boxplot(outlier.color = "red", outlier.shape = 16, outlier.size = 2) +
+    theme_minimal() +
+    labs(title = "Boxplot with Outliers ", x = "Care Condition", y = "length of stay(days)") +
+    scale_fill_manual(values = c("lightblue", "lightpink"))
+
+extended
+ggplot(length_of_hospital_stay, aes(x = SUBJECT, y = Value, fill = SUBJECT)) +
+    geom_boxplot(outlier.color = "red", outlier.shape = 16, outlier.size = 2) +
+    theme_minimal() +
+    labs(title = "Boxplot with Outliers", x = "Care Condition", y = "Length of Stay (days)") +
+    scale_fill_manual(values = c("lightblue", "lightpink")) +
+    expand_limits(y = c(0, max(length_of_hospital_stay$Value) + 2)  # Extend y-axis upwards
+
+
+Histogram with overlay curve
+
+hist_data <- hist(length_of_hospital_stay$Value, 
+                  plot = FALSE)  # Keep as frequencies (default behavior)
+
+# Extend the y-axis by adding space above the tallest bar
+y_max <- max(hist_data$counts) +40 # Adjust "+ 5" to add more space
+
+# Plot the histogram with frequency counts
+hist(length_of_hospital_stay$Value, 
+     main = "Histogram", 
+     xlab = "Length of Stay", 
+     col = "lightblue", 
+     border = "black", 
+     ylim = c(0, y_max))  
+
+# Calculate mean and standard deviation
+mean_val <- mean(length_of_hospital_stay$Value)
+sd_val <- sd(length_of_hospital_stay$Value)
+
+# Overlay the normal curve scaled to frequency
+curve(dnorm(x, mean = mean_val, sd = sd_val) * length(length_of_hospital_stay$Value) * diff(hist_data$breaks)[1], 
+      col = "red", 
+      lwd = 2, 
+      add = TRUE)
